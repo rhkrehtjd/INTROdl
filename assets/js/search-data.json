@@ -1,11 +1,33 @@
 {
   
+    
+        "post0": {
+            "title": "2022/01/13/THU",
+            "content": "View(Reshape) . import numpy as np import torch t=np.array([[[0, 1, 2], [3, 4, 5]], [[6, 7, 8], [9, 10, 11]]]) ft=torch.FloatTensor(t) print(ft.shape) . torch.Size([2, 2, 3]) . t . array([[[ 0, 1, 2], [ 3, 4, 5]], [[ 6, 7, 8], [ 9, 10, 11]]]) . print(ft.view([-1,3])) # view사용해서 모양 바꾸자 print(ft.view([-1,3]).shape) . tensor([[ 0., 1., 2.], [ 3., 4., 5.], [ 6., 7., 8.], [ 9., 10., 11.]]) torch.Size([4, 3]) . 두개의 차원으로 변경할 건데 앞 차원은 모르겠고 뒷 차원은 세개의 element를 가질래 | . print(ft.view([-1,1,3])) print(ft.view([-1,1,3]).shape) . tensor([[[ 0., 1., 2.]], [[ 3., 4., 5.]], [[ 6., 7., 8.]], [[ 9., 10., 11.]]]) torch.Size([4, 1, 3]) . 세개의 차원으로 변경할 건데 첫번째 차원은 아직 모르겠고 두번째 차원과 세번째 차원은 각각 1과3으로 변경해줘 | . Squeeze . ft=torch.FloatTensor([[0],[1],[2]]) print(ft) print(ft.shape) . tensor([[0.], [1.], [2.]]) torch.Size([3, 1]) . print(ft.squeeze()) print(ft.squeeze().shape) . tensor([0., 1., 2.]) torch.Size([3]) . 차원이 줄어들었음 | 1만 압축해주는 것 같음 | . print(ft.squeeze(dim=0)) print(ft.squeeze(dim=1)) # 해당 차원이 1일 때만! . tensor([[0.], [1.], [2.]]) tensor([0., 1., 2.]) . Unsqueeze . ft = torch.Tensor([0,1,2]) print(ft.shape) . torch.Size([3]) . 첫번째 차원에 1을 넣자 | . print(ft.unsqueeze(0)) print(ft.unsqueeze(0).shape) . tensor([[0., 1., 2.]]) torch.Size([1, 3]) . print(ft.view(1,-1)) print(ft.view(1,-1).shape) . tensor([[0., 1., 2.]]) torch.Size([1, 3]) . 두번째 차원에 1을 넣자 | . print(ft.unsqueeze(1)) print(ft.unsqueeze(1).shape) . tensor([[0.], [1.], [2.]]) torch.Size([3, 1]) . -1=(dim=1) | . print(ft.unsqueeze(-1)) print(ft.unsqueeze(-1).shape) . tensor([[0.], [1.], [2.]]) torch.Size([3, 1]) . Type Casting . lt = torch.LongTensor([1,2,3,4]) print(lt) . tensor([1, 2, 3, 4]) . print(lt.float()) . tensor([1., 2., 3., 4.]) . bool형일 때 | . bt=torch.ByteTensor([True,True,True]) print(bt) . tensor([1, 1, 1], dtype=torch.uint8) . print(bt.long()) print(bt.float()) . tensor([1, 1, 1]) tensor([1., 1., 1.]) . Concatenate . x=torch.FloatTensor([[1,2],[3,4]]) y=torch.FloatTensor([[5,6],[7,8]]) . print(torch.cat([x,y], dim=0)) print(torch.cat([x,y], dim=1)) . tensor([[1., 2.], [3., 4.], [5., 6.], [7., 8.]]) tensor([[1., 2., 5., 6.], [3., 4., 7., 8.]]) . Stacking . x=torch.FloatTensor([1,4]) y=torch.FloatTensor([2,5]) z=torch.FloatTensor([3,6]) . print(torch.stack([x,y,z])) print(torch.stack([x,y,z],dim=1)) . tensor([[1., 4.], [2., 5.], [3., 6.]]) tensor([[1., 2., 3.], [4., 5., 6.]]) . print(torch.cat([x.unsqueeze(0),y.unsqueeze(0),z.unsqueeze(0)],dim=0)) . tensor([[1., 4.], [2., 5.], [3., 6.]]) . Ones and Zeros . x=torch.FloatTensor([[0,1,2],[2,1,0]]) print(torch.ones_like(x)) print(torch.zeros_like(x)) . tensor([[1., 1., 1.], [1., 1., 1.]]) tensor([[0., 0., 0.], [0., 0., 0.]]) . In-place Operation . x=torch.FloatTensor([[1,2],[3,4]]) . print(x.mul(2)) print(x) print(x.mul_(2)) print(x) . tensor([[2., 4.], [6., 8.]]) tensor([[1., 2.], [3., 4.]]) tensor([[2., 4.], [6., 8.]]) tensor([[2., 4.], [6., 8.]]) . 즉 언더바를 통해 inplace=True 효과! | .",
+            "url": "https://rhkrehtjd.github.io/INTROdl/2022/01/13/intro.html",
+            "relUrl": "/2022/01/13/intro.html",
+            "date": " • Jan 13, 2022"
+        }
+        
+    
+  
+    
+        ,"post1": {
+            "title": "2022/01/12/WED",
+            "content": "import torch . t=torch.FloatTensor([0.,1.,2.,3.,4.,5.,6.]) print(t) . tensor([0., 1., 2., 3., 4., 5., 6.]) . print(t.dim()) print(t.shape) print(t.size()) print(t[0],t[1],t[-1]) . 1 torch.Size([7]) torch.Size([7]) tensor(0.) tensor(1.) tensor(6.) . 그 외에도 slicing도 ndarray처럼 사용 가능 | 2차원 3차원도 ndarray처럼 사용 가능 | . Broadcasting . m1 = torch.FloatTensor([[3,3]]) m2 = torch.FloatTensor([[2,2]]) print(m1+m2) . tensor([[5., 5.]]) . 이렇게 같은 크기뿐만 아니라 Broadcasting을 통해 | . m1 = torch.FloatTensor([[1,2]]) m2 = torch.FloatTensor([[3]]) print(m1+m2) . tensor([[4., 5.]]) . 이렇게 크기가 동일하지 않아도 pytorch가 자동으로 동일한 size로 변환하여 연산 수행 가능 | . m1 = torch.FloatTensor([[1,2]]) m2 = torch.FloatTensor([[3],[4]]) print(m1+m2) . tensor([[4., 5.], [5., 6.]]) . print(m1.shape) . torch.Size([1, 2]) . m1 . tensor([[1., 2.]]) . print(m2.shape) . torch.Size([2, 1]) . m2 . tensor([[3.], [4.]]) . 이렇게 행렬 모양이 다르더라도 m1과 m2를 각각 2x2행렬로 변경하여 덧셈 수행하는 기능도 가능하다 | 이런 Broadcasting 기능은 자동으로 수행되기 때문에 잘못 사용하지 않게 유의하자 | . m1 = torch.FloatTensor([[1,2],[3,4]]) m2 = torch.FloatTensor([[3],[4]]) print(m1*m2) print(m1.mul(m2)) . tensor([[ 3., 6.], [12., 16.]]) tensor([[ 3., 6.], [12., 16.]]) . 이때 m2가 Broadcasting되면서 우리가 일반적으로 알고 있는 행렬 연산 수행과는 상이하게 진행됨 | 우리가 알고 있는 행렬 연산을 하기 위해서는 | . m1 = torch.FloatTensor([[1,2],[3,4]]) m2 = torch.FloatTensor([[3],[4]]) print(m1.matmul(m2)) . tensor([[11.], [25.]]) . 이렇게 해야한다. | . t = torch.FloatTensor([1,2]) print(t.mean()) . tensor(1.5000) . t = torch.FloatTensor([[1,2],[3,4]]) print(t.mean(dim=0)) # dim=0을 없애겠다. (2x2) -&gt; (1x2) print(t.mean(dim=1)) # dim=1을 없애겠다. (2x2) -&gt; (2x1) print(t.mean(dim=-1)) . tensor([2., 3.]) tensor([1.5000, 3.5000]) tensor([1.5000, 3.5000]) . t = torch.FloatTensor([[1,2],[3,4]]) print(t) . tensor([[1., 2.], [3., 4.]]) . print(t.sum()) print(t.sum(dim=0)) print(t.sum(dim=1)) print(t.sum(dim=-1)) . tensor(10.) tensor([4., 6.]) tensor([3., 7.]) tensor([3., 7.]) . t = torch.FloatTensor([[3,2],[1,4]]) print(t) . tensor([[3., 2.], [1., 4.]]) . print(t.max()) . tensor(4.) . print(t.max(dim=0)) # dim=0 제외하고 각 열에서의 max와 그 때의 index값을 알려줌 print(t.max(dim=0)[0]) # max값 print(t.max(dim=0)[1]) # max값의 index 즉, argmax . torch.return_types.max( values=tensor([3., 4.]), indices=tensor([0, 1])) tensor([3., 4.]) tensor([0, 1]) . print(t.max(dim=1)) print(t.max(dim=1)[0]) print(t.max(dim=1)[1]) . torch.return_types.max( values=tensor([3., 4.]), indices=tensor([0, 1])) tensor([3., 4.]) tensor([0, 1]) .",
+            "url": "https://rhkrehtjd.github.io/INTROdl/2022/01/12/intro.html",
+            "relUrl": "/2022/01/12/intro.html",
+            "date": " • Jan 12, 2022"
+        }
+        
+    
+  
 
   
   
 
   
-      "page1": {
+      ,"page1": {
           "title": "About Me",
           "content": "This website is powered by fastpages 1. . a blogging platform that natively supports Jupyter notebooks in addition to other formats. &#8617; . |",
           "url": "https://rhkrehtjd.github.io/INTROdl/about/",
