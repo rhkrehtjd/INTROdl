@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>퍼셉트론 | INTROdl</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="퍼셉트론" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="An easy to use blogging platform with support for Jupyter Notebooks." />
+<meta property="og:description" content="An easy to use blogging platform with support for Jupyter Notebooks." />
+<link rel="canonical" href="https://rhkrehtjd.github.io/INTROdl/2022/02/04/dl.html" />
+<meta property="og:url" content="https://rhkrehtjd.github.io/INTROdl/2022/02/04/dl.html" />
+<meta property="og:site_name" content="INTROdl" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-02-04T00:00:00-06:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="퍼셉트론" />
+<script type="application/ld+json">
+{"url":"https://rhkrehtjd.github.io/INTROdl/2022/02/04/dl.html","@type":"BlogPosting","headline":"퍼셉트론","dateModified":"2022-02-04T00:00:00-06:00","datePublished":"2022-02-04T00:00:00-06:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://rhkrehtjd.github.io/INTROdl/2022/02/04/dl.html"},"description":"An easy to use blogging platform with support for Jupyter Notebooks.","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/INTROdl/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://rhkrehtjd.github.io/INTROdl/feed.xml" title="INTROdl" /><link rel="shortcut icon" type="image/x-icon" href="/INTROdl/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/INTROdl/">INTROdl</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/INTROdl/about/">About Me</a><a class="page-link" href="/INTROdl/search/">Search</a><a class="page-link" href="/INTROdl/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">퍼셉트론</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-02-04T00:00:00-06:00" itemprop="datePublished">
+        Feb 4, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      2 min read
+    
+</span></p>
+
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-justify-center">
+          <div class="px-2">
+
+    <a href="https://github.com/rhkrehtjd/INTROdl/tree/master/_notebooks/2022-02-04-dl.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/INTROdl/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/rhkrehtjd/INTROdl/master?filepath=_notebooks%2F2022-02-04-dl.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/INTROdl/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/rhkrehtjd/INTROdl/blob/master/_notebooks/2022-02-04-dl.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/INTROdl/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+          <div class="px-2">
+  <a href="https://deepnote.com/launch?url=https%3A%2F%2Fgithub.com%2Frhkrehtjd%2FINTROdl%2Fblob%2Fmaster%2F_notebooks%2F2022-02-04-dl.ipynb" target="_blank">
+      <img class="notebook-badge-image" src="/INTROdl/assets/badges/deepnote.svg" alt="Launch in Deepnote"/>
+  </a>
+</div>
+
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2022-02-04-dl.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>퍼셉트론을 구현해보자<ul>
+<li>AND 게이트 구현</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">AND</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">):</span>
+    <span class="n">w1</span><span class="p">,</span><span class="n">w2</span><span class="p">,</span><span class="n">theta</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.7</span>
+    <span class="n">tmp</span> <span class="o">=</span> <span class="n">x1</span><span class="o">*</span><span class="n">w1</span><span class="o">+</span><span class="n">x2</span><span class="o">*</span><span class="n">w2</span>
+    <span class="k">if</span> <span class="n">tmp</span><span class="o">&lt;=</span><span class="n">theta</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>
+    <span class="k">elif</span> <span class="n">tmp</span><span class="o">&gt;</span><span class="n">theta</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">1</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">AND</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">AND</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">AND</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">AND</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>0
+0
+0
+1
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>물론 앞에서 구현한 AND 게이트는 직관적이고 알기 쉽지만, 앞으로를 생각해서 다른 방식으로 수정해보자.<ul>
+<li>편향이라는 개념을 도입하여, 퍼셉트론은 입력신호에 가중치를 곱한 값과 편향을 더하여, 그 값이 0을 넘으면 1을 출력하고 그렇지 않으면 0을 출력한다. </li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>       <span class="c1"># 입력</span>
+<span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.5</span><span class="p">])</span>   <span class="c1"># 가중치</span>
+<span class="n">b</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.7</span>                  <span class="c1"># 편향</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">w</span><span class="o">*</span><span class="n">x</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">w</span><span class="o">*</span><span class="n">x</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">w</span><span class="o">*</span><span class="n">x</span><span class="p">)</span><span class="o">+</span><span class="n">b</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[0.  0.5]
+0.5
+-0.19999999999999996
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr />
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>가중치와 편향을 도입한 AND 게이트는 다음과 같이 구현할 수 있다. </li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">AND</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span><span class="n">x2</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x1</span><span class="p">,</span><span class="n">x2</span><span class="p">])</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.5</span><span class="p">])</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.7</span>
+    <span class="n">tmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x</span><span class="o">*</span><span class="n">w</span><span class="p">)</span> <span class="o">+</span> <span class="n">b</span>
+    <span class="k">if</span> <span class="n">tmp</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>
+    <span class="k">elif</span> <span class="n">tmp</span> <span class="o">&gt;</span><span class="mi">0</span> <span class="p">:</span>
+        <span class="k">return</span> <span class="mi">1</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>w1,w2는 각 입력 신호가 결과에 주는 영향력을 조절하는 매개변수이고, 편향을 뉴런이 얼마나 쉽게 활성화(결과로 1을 출력)하느냐를 조정하는 매개변수이다.</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">NAND</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span><span class="n">x2</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x1</span><span class="p">,</span><span class="n">x2</span><span class="p">])</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span><span class="o">-</span><span class="mf">0.5</span><span class="p">])</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="mf">0.7</span>
+    <span class="n">tmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x</span><span class="o">*</span><span class="n">w</span><span class="p">)</span> <span class="o">+</span> <span class="n">b</span>
+    <span class="k">if</span> <span class="n">tmp</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>
+    <span class="k">elif</span> <span class="n">tmp</span> <span class="o">&gt;</span><span class="mi">0</span> <span class="p">:</span>
+        <span class="k">return</span> <span class="mi">1</span>
+<span class="k">def</span> <span class="nf">OR</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span><span class="n">x2</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x1</span><span class="p">,</span><span class="n">x2</span><span class="p">])</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.5</span><span class="p">])</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.2</span>
+    <span class="n">tmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x</span><span class="o">*</span><span class="n">w</span><span class="p">)</span> <span class="o">+</span> <span class="n">b</span>
+    <span class="k">if</span> <span class="n">tmp</span><span class="o">&lt;=</span><span class="mi">0</span> <span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>
+    <span class="k">elif</span> <span class="n">tmp</span> <span class="o">&gt;</span><span class="mi">0</span> <span class="p">:</span>
+        <span class="k">return</span> <span class="mi">1</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>AND, NAND, OR 모두 같은 구조의 퍼셉트론이고 차이는 가중치 매개변수의 값뿐이다. 실제로 파이썬으로 작성한 NAND와 OR 게이트의 코드에서도  AND와 다른 곳은 가중치와 편향 값을 설정하는 부분뿐이다. </li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr />
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>XOR 게이트<ul>
+<li>배타적 논리합이라는 논리회로이다. 한쪽이 1일때만 1을 출력. OR게이트와 달리 둘 다 1일때는 출력하지 않는다. </li>
+<li>지금까지 본 퍼셉트론의 구조로는 이 XOR 게이트를 구현할 수 없다. </li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(0.0, 2.0)</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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
+" />
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>(0,0)(1,1),(1,0)(0,1)이 두 묶음을 각각 나눌 수 있는 직선은 있을 수 없다.</li>
+<li>하지만 직선이라는 제약을 없앤다면 가능하다</li>
+<li>퍼셉트론은 직선 하나로 나눈 영역만 표현할 수 있다는 한계가 있다. 곡선은 표현할 수 없다. </li>
+<li>퍼셉트론으로는 XOR 게이트를 표현할 수 없지만 층을 쌓아 다층 퍼셉트론을 통해 구현할 수 있다.</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr />
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>AND, OR NAND 게이트를 조합하여 XOR게이트를 만들 수 있다.</li>
+<li>단층 퍼셉트론으로는 XOR 게이트를 표현할 수 없다. 단층 퍼셉트론으로는 비선형 영역을 분리할 수 없다.</li>
+<li>퍼셉트론을 조합하여 즉, 층을 쌓아서 XOR 게이트를 구현하는 것이다.</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">XOR</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span><span class="n">x2</span><span class="p">):</span>
+    <span class="n">s1</span> <span class="o">=</span> <span class="n">NAND</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span><span class="n">x2</span><span class="p">)</span>
+    <span class="n">s2</span> <span class="o">=</span> <span class="n">OR</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span><span class="n">x2</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">AND</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span><span class="n">s2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">y</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">XOR</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">XOR</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">XOR</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">XOR</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>0
+1
+1
+0
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>이처럼 퍼셉트론은 층을 쌓아 더 다양한 것을 표현할 수 있다.</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr />
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Conclusion">Conclusion<a class="anchor-link" href="#Conclusion"> </a></h3><ul>
+<li>퍼셉트론은 입출력을 갖춘 알고리즘이다. 입력을 주면 정해진 규칙에 따른 값을 출력한다.</li>
+<li>퍼셉트론에서는 가중치와 편향을 매개변수로 설정한다. </li>
+<li>퍼셉트론으로 AND,OR 게이트 등의 논리 회로를 표현할 수 있다.</li>
+<li>XOR 게이트는 단층 퍼셉트론으로는 표현할 수 없다.</li>
+<li>2층 퍼셉트론을 이용하면 XOR 게이트를 표현할 수 있다.</li>
+<li>단층 퍼셉트론은 직선형 영역만 표현할 수 있고, 다층 퍼셉트론은 비선형 영역도 표현할 수 있다.</li>
+<li>다층 퍼셉트론은 (이론상) 컴퓨터도 표현할 수 있다.</li>
+</ul>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+  </div><a class="u-url" href="/INTROdl/2022/02/04/dl.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/INTROdl/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/INTROdl/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/INTROdl/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>An easy to use blogging platform with support for Jupyter Notebooks.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/rhkrehtjd" target="_blank" title="rhkrehtjd"><svg class="svg-icon grey"><use xlink:href="/INTROdl/assets/minima-social-icons.svg#github"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
