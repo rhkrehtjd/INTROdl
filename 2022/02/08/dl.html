@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>교차 엔트로피 오차 | INTROdl</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="교차 엔트로피 오차" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="An easy to use blogging platform with support for Jupyter Notebooks." />
+<meta property="og:description" content="An easy to use blogging platform with support for Jupyter Notebooks." />
+<link rel="canonical" href="https://rhkrehtjd.github.io/INTROdl/2022/02/08/dl.html" />
+<meta property="og:url" content="https://rhkrehtjd.github.io/INTROdl/2022/02/08/dl.html" />
+<meta property="og:site_name" content="INTROdl" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-02-08T00:00:00-06:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="교차 엔트로피 오차" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2022-02-08T00:00:00-06:00","datePublished":"2022-02-08T00:00:00-06:00","description":"An easy to use blogging platform with support for Jupyter Notebooks.","headline":"교차 엔트로피 오차","mainEntityOfPage":{"@type":"WebPage","@id":"https://rhkrehtjd.github.io/INTROdl/2022/02/08/dl.html"},"url":"https://rhkrehtjd.github.io/INTROdl/2022/02/08/dl.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/INTROdl/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://rhkrehtjd.github.io/INTROdl/feed.xml" title="INTROdl" /><link rel="shortcut icon" type="image/x-icon" href="/INTROdl/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/INTROdl/">INTROdl</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/INTROdl/about/">About Me</a><a class="page-link" href="/INTROdl/search/">Search</a><a class="page-link" href="/INTROdl/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">교차 엔트로피 오차</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-02-08T00:00:00-06:00" itemprop="datePublished">
+        Feb 8, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      4 min read
+    
+</span></p>
+
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-justify-center">
+          <div class="px-2">
+
+    <a href="https://github.com/rhkrehtjd/INTROdl/tree/master/_notebooks/2022-02-08-dl.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/INTROdl/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/rhkrehtjd/INTROdl/master?filepath=_notebooks%2F2022-02-08-dl.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/INTROdl/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/rhkrehtjd/INTROdl/blob/master/_notebooks/2022-02-08-dl.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/INTROdl/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+          <div class="px-2">
+  <a href="https://deepnote.com/launch?url=https%3A%2F%2Fgithub.com%2Frhkrehtjd%2FINTROdl%2Fblob%2Fmaster%2F_notebooks%2F2022-02-08-dl.ipynb" target="_blank">
+      <img class="notebook-badge-image" src="/INTROdl/assets/badges/deepnote.svg" alt="Launch in Deepnote"/>
+  </a>
+</div>
+
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2022-02-08-dl.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>데이터에서 학습한다 : 가중치 매개변수의 값을 데이터를 보고 자동으로 결정한다.</li>
+<li>이번 장에서는 신경망 학습(데이터로부터 매개변수의 값을 정하는 방법)에 대해 알아보고 파이썬으로 MNIST 데이터셋의 손글씨 숫자를 학습하는 코드를 구현해보자</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr />
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>데이터 주도 학습<ul>
+<li>신경망과 딥러닝은 기존 기계학습에서 사용하던 방법보다 사람의 개입을 더욱 배제할 수 있게 해주는 중요한 특성을 지녔다.<ul>
+<li>구체적 예 &gt; 가령 이미지에서 '5'라는 숫자를 인식하는 프로그램을 구현한다고 해보자. 주어진 데이터를 잘 활용해서 해결해야 한다. 이런 방법의 하나로서 이미지에서 특징을 추출하고 그 특징의 패턴을 기계학습 기술로 학습하는 방법이 있다. 여기서 말하는 특징은 입력 데이터(입력 이미지)에서 본질적인 데이터(중요 데이터)를 정확하게 추출할 수 있도록 설계된 변환기를 가리킨다. 이미지의 특징은 보통 벡터로 기술한다. 이미지 데이터를 벡터로 변환하고, 변환된 벡터를 가지고 지도 학습 방식의 대표 분류 기법인 SVM,KNN등으로 학습할 수 있다. </li>
+<li>다만, 이미지를 벡터로 변환할 때 사용하는 특징은 여전히 사람이 설계한다. </li>
+<li>즉, 특징과 기계학습을 활용한 접근에도 문제에 따라서는 사람이 적절한 특징을 생각해내야 하는 것이다.</li>
+<li>반면 신경망 방식은 사람이 개입하지 않는 블록 하나로 이루어진다. </li>
+<li>신경망은 이미지를 있는 그대로 학습한다. 신경망은 이미지에 포함된 중요한 특징까지도 기계가 스스로 학습한다. 따라서 종단간 기계학습이라고 딥러닝을 부르기도 한다. </li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>신경망도 하나의 지표를 기준으로 최적의 매개변수 값을 탐색한다. 신경망 학습에서 사용하는 지표는 손실 함수라고도 한다. 이 손실 함수는 임의의 함수를 사용할 수도 있지만 일반적으로는 오차제곱합과 교차 엔트로피 오차를 사용한다.</li>
+<li>오차 제곱합은 각 원소의 출력(추정 값)과 정답 레이블(참 값)의 차를 제곱한 후, 그 총합을 구한다. 파이썬으로 구현해보자</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="k">def</span> <span class="nf">sum_squares_error</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">t</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">y</span><span class="o">-</span><span class="n">t</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>여기서 인수 y와 t는 넘파이 배열이다. </li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.05</span><span class="p">,</span><span class="mf">0.6</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.05</span><span class="p">,</span><span class="mf">0.1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">sum_squares_error</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0.09750000000000003</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">sum</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<span class="c1"># 해당 예는 정답도 2이고 예측도 2일 확률이 0.6으로 가장 높다고 했음</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>1.0</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.05</span><span class="p">,</span><span class="mf">0.1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.05</span><span class="p">,</span><span class="mf">0.1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.6</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">sum_squares_error</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">y</span><span class="p">),</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0.5975</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">sum</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<span class="c1"># 해당 예는 정답은 똑갑이 2이지만 예측은 6일 확률이 0.6으로 가장 높다고 했음</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>1.0</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>즉, 첫 번째 예의 손실 함수 쪽 출력이 작으며 정답 레이블과의 오차도 작은 것을 알 수 있다.</li>
+<li>오차제곱합 기준으로는 첫 번째 추정 결과가 (오차가 더 작으니) 정답에 더 가까울 것으로 판단할 수 있다.</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr />
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>교차 엔트로피 오차<ul>
+<li>실질적으로 정답일 때의 추정의 자연로그를 계산하는 식이 된다. </li>
+<li>즉, 교차 엔트로피 오차는 정답일 때의 출력이 전체 값을 정하게 된다. </li>
+<li>정답에 해당하는 출력이 커질수록 0에 다가가다가, 그 출력이 1일 때, 0이 된다.</li>
+<li>반대로 정답일 때의 출력이 작아질수록 오차는 커진다.</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+
+<span class="n">x</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.01</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;y=log(x)&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Text(0.5, 1.0, &#39;y=log(x)&#39;)</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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
+" />
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">cross_entropy_error</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">t</span><span class="p">):</span>
+    <span class="n">delta</span> <span class="o">=</span> <span class="mf">1e-7</span> <span class="c1"># np.log 함수에 0을 입력하면 마이너스 무한대를 뜻하는 -inf가 되어 더 이상 계산할 수 없기에 아주 작은 값인 delta를 더해줌.</span>
+    <span class="k">return</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span> <span class="n">t</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">y</span><span class="o">+</span><span class="n">delta</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.05</span><span class="p">,</span><span class="mf">0.6</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.05</span><span class="p">,</span><span class="mf">0.1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">cross_entropy_error</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">y</span><span class="p">),</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0.510825457099338</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.05</span><span class="p">,</span><span class="mf">0.1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.05</span><span class="p">,</span><span class="mf">0.6</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">cross_entropy_error</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">y</span><span class="p">),</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>2.302584092994546</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>첫 번째 예는 정답일 때의 출력이 0.6인 경우로 이때의 교차 엔트로피 오차는 약 0.51이다.</li>
+<li>다음은 정답일 때의 출력이 0.1인 경우로 이 때의 교차 엔트로피 오차는 무려 2.3이다. </li>
+<li><strong><em>즉, 결과(오차 값)가 더 작은 첫 번째 추정이 정답일 가능성이 높다고 판단한 것으로, 앞서 오차제곱합의 판단과 일치한다.</em></strong></li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr />
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>지금까지는 데이터 하나에 대한 손실 함수만 생각했으니, 이제 훈련 데이터 모두에 대한 손실함수의 합을 구하는 방법에 대해 생각해보자</li>
+<li>빅데이터 수준의 수백만, 수천만개의 수준에서는 데이터 일부를 추려 전체의 근사치로 이용할 수 있다. <ul>
+<li>이 일부를 미니배치라고 한다. 가령 60000장의 훈련 데이터 중에서 100장을 무작위로 뽑아 그 100장 만을 사용하여 학습하는 것이다. 이러한 학습을 미니배치 학습이라고 한다. </li>
+<li>미니배치 학습을 구현하는 코드를 작성해보자</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">os</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">pardir</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">dataset.mnist</span> <span class="kn">import</span> <span class="n">load_mnist</span>
+
+<span class="p">(</span><span class="n">x_train</span><span class="p">,</span><span class="n">t_train</span><span class="p">),(</span><span class="n">x_test</span><span class="p">,</span> <span class="n">t_test</span><span class="p">)</span> <span class="o">=</span> \
+<span class="n">load_mnist</span><span class="p">(</span><span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">one_hot_label</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">x_train</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">t_train</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>(60000, 784)
+(60000, 10)
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>이 훈련 데이터에서 무작위로 10장만 빼내려면 어떻게 하면 될까.</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">train_size</span> <span class="o">=</span> <span class="n">x_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">batch_size</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">batch_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">train_size</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">)</span>
+<span class="n">x_batch</span> <span class="o">=</span> <span class="n">x_train</span><span class="p">[</span><span class="n">batch_mask</span><span class="p">]</span>
+<span class="n">t_batch</span> <span class="o">=</span> <span class="n">t_train</span><span class="p">[</span><span class="n">batch_mask</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="mi">60000</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+<ul>
+<li>의미 : 0이상 60000 미만의 수 중에서 무작위로 10개 골라낸다</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>이제 무작위로 선택한 이 인덱스를 사용해 미니배치를 뽑아내기만 하면 된다. 손실함수도 이 미니배치로 계산한다. </li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr />
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>미니배치 같은 배치 데이터를 지원하는 교차 엔트로피 오차는 어떻게 구현할까</li>
+<li>아래 셀은 데이터가 하나인 경우와 데이터가 배치로 묶여 입력된 경우 모두를 처리할 수 있도록 구현한 것이다. </li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">cross_entropy_error</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">t</span><span class="p">):</span> <span class="c1"># y는 신경망의 출력, t는 정답레이블</span>
+    <span class="k">if</span> <span class="n">y</span><span class="o">.</span><span class="n">dim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+    
+    <span class="n">batch_size</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span> <span class="n">t</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">y</span> <span class="o">+</span> <span class="mf">1e-7</span><span class="p">))</span> <span class="o">/</span> <span class="n">batch_size</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>y(신경망의 출력)가 1차원이라면, 즉 데이터 하나당 교차 엔트로피 오차를 구하는 경우는 reshape함수로 데이터의 형상을 바꿔준다. </li>
+<li>정답 레이블이 원-핫 인코딩이 아니라 '2'나 '7'등의 숫자 레이블로 주어졌을 때의 교차 엔트로피 오차는 다음과 같이 구현할 수 있다.</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">cross_entropy_error</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">t</span><span class="p">):</span> <span class="c1"># y는 신경망의 출력, t는 정답레이블</span>
+    <span class="k">if</span> <span class="n">y</span><span class="o">.</span><span class="n">dim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+    
+    <span class="n">batch_size</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">batach_size</span><span class="p">),</span><span class="n">t</span><span class="p">]</span> <span class="o">+</span> <span class="mf">1e-7</span><span class="p">))</span> <span class="o">/</span> <span class="n">batch_size</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>이 구현에서는 원-핫 인코딩일 때 t가 0인 원소는 교차 엔트로피 오차도 0이므로, 그 계산은 무시해도 좋다는 것이 핵심이다. </li>
+<li>다시 말하면 정답에 해당하는 신경망의 출력만으로 교차 엔트로피 오차를 계산할 수 있다. </li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr />
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+  </div><a class="u-url" href="/INTROdl/2022/02/08/dl.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/INTROdl/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/INTROdl/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/INTROdl/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>An easy to use blogging platform with support for Jupyter Notebooks.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/rhkrehtjd" target="_blank" title="rhkrehtjd"><svg class="svg-icon grey"><use xlink:href="/INTROdl/assets/minima-social-icons.svg#github"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
