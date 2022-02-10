@@ -1,0 +1,1331 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>수치 미분 | INTROdl</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="수치 미분" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="An easy to use blogging platform with support for Jupyter Notebooks." />
+<meta property="og:description" content="An easy to use blogging platform with support for Jupyter Notebooks." />
+<link rel="canonical" href="https://rhkrehtjd.github.io/INTROdl/2022/02/09/dl-Copy1.html" />
+<meta property="og:url" content="https://rhkrehtjd.github.io/INTROdl/2022/02/09/dl-Copy1.html" />
+<meta property="og:site_name" content="INTROdl" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-02-09T00:00:00-06:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="수치 미분" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2022-02-09T00:00:00-06:00","datePublished":"2022-02-09T00:00:00-06:00","description":"An easy to use blogging platform with support for Jupyter Notebooks.","headline":"수치 미분","mainEntityOfPage":{"@type":"WebPage","@id":"https://rhkrehtjd.github.io/INTROdl/2022/02/09/dl-Copy1.html"},"url":"https://rhkrehtjd.github.io/INTROdl/2022/02/09/dl-Copy1.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/INTROdl/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://rhkrehtjd.github.io/INTROdl/feed.xml" title="INTROdl" /><link rel="shortcut icon" type="image/x-icon" href="/INTROdl/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/INTROdl/">INTROdl</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/INTROdl/about/">About Me</a><a class="page-link" href="/INTROdl/search/">Search</a><a class="page-link" href="/INTROdl/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">수치 미분</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-02-09T00:00:00-06:00" itemprop="datePublished">
+        Feb 9, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      7 min read
+    
+</span></p>
+
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-justify-center">
+          <div class="px-2">
+
+    <a href="https://github.com/rhkrehtjd/INTROdl/tree/master/_notebooks/2022-02-09-dl-Copy1.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/INTROdl/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/rhkrehtjd/INTROdl/master?filepath=_notebooks%2F2022-02-09-dl-Copy1.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/INTROdl/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/rhkrehtjd/INTROdl/blob/master/_notebooks/2022-02-09-dl-Copy1.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/INTROdl/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+          <div class="px-2">
+  <a href="https://deepnote.com/launch?url=https%3A%2F%2Fgithub.com%2Frhkrehtjd%2FINTROdl%2Fblob%2Fmaster%2F_notebooks%2F2022-02-09-dl-Copy1.ipynb" target="_blank">
+      <img class="notebook-badge-image" src="/INTROdl/assets/badges/deepnote.svg" alt="Launch in Deepnote"/>
+  </a>
+</div>
+
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2022-02-09-dl-Copy1.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>경사법에서는 기울기 값을 기준으로 나아갈 방향을 정한다. </li>
+<li>함수를 미분하는 계산을 구현해보자</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">numerical_diff</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="mf">1e-50</span> <span class="c1"># 매우 작은 수, 소수점 아래 0이 50개</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">h</span><span class="p">)</span> <span class="o">-</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="o">/</span><span class="n">h</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>위 함수에서 개선해야 할 점 <ul>
+<li>1) 1e-50은 반올림 오차 문제를 일으킨다. 작은 값이 생략되어 최종 계산 결과에 오차가 생기게 하는 것이다. 예를 들면</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">(</span><span class="mf">1e-50</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0.0</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>미세한 값 h를 10<strong>-4 정도로 이용해보자. 10</strong>-4 정도의 값을 사용하면 좋은 결과를 얻는다고 알려져 있다. </li>
+<li>두 번째 개선 : 함수 f의 차분(임의의 두 점에서의 함수 값들의 차이)과 관련한 것이다.<ul>
+<li>위 함수에서는 x+h와 x사이의 함수f의 차분을 계산하고 있지만, 애당초 이 계산에는 오차가 있다는 사실에 주의해야 한다.</li>
+<li>진정한 미분은 x 위치의 함수의 기울기(이를 접선이라고 함)에 해당하지만, 이번 구현에서의 미분은 (x+h)와 x사이의 기울기에 해당한다</li>
+<li>그래서 진정한 미분(진정한 접선)과 이번 구현의 값은 엄밀히는 일치하지 않는다. 이 차이는 h를 무한히 0으로 좁히는 것이 불가능해 생기는 한계이다.</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>수치 미분에는 오차가 포함된다.<ul>
+<li>이 오차를 줄이기 위해 (x+h)와 (x-h)일 때의 함수f의 차분을 계산하는 방법을 쓰기도 한다.</li>
+<li>해당 차분은 x를 중심으로 그 전후의 차분을 계산한다는 의미에서 중심 차분 혹은 중앙 차분이라고 한다. (x와 x+h의 차분은 전방 차분이라고 한다.)</li>
+</ul>
+</li>
+<li>두 개선점을 적용해 수치 미분을 구현해보자</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">numerical_diff</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="mf">1e-4</span> <span class="c1">#0.0001 # 개선 1</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">h</span><span class="p">)</span> <span class="o">-</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">h</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">h</span><span class="p">)</span> <span class="c1"># 2h = x+h-(x-h) =2h # 개선 2</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr />
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>앞 절의 수치 미분을 사용하여 간단한 함수를 미분해보자</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">function_1</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mf">0.01</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mf">0.1</span><span class="o">*</span><span class="n">x</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">20.0</span><span class="p">,</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">function_1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;f(x)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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
+" />
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>이제 x는 5일 때와 10일 때의 함수의 미분을 계산해보자</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">numerical_diff</span><span class="p">(</span><span class="n">function_1</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">numerical_diff</span><span class="p">(</span><span class="n">function_1</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+<span class="c1"># 함수의 기울기에 해당한다.</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>0.1999999999990898
+0.2999999999986347
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr />
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">tangent_line</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">numerical_diff</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="n">d</span><span class="o">*</span><span class="n">x</span>
+    <span class="k">return</span> <span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">d</span><span class="o">*</span><span class="n">t</span> <span class="o">+</span> <span class="n">y</span>
+     
+
+<span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span><span class="n">ax2</span><span class="p">)</span><span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>    
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">function_1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="n">tf</span> <span class="o">=</span> <span class="n">tangent_line</span><span class="p">(</span><span class="n">function_1</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">y2</span> <span class="o">=</span> <span class="n">tf</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y2</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;f(x)&#39;</span><span class="p">)</span>
+
+<span class="n">tf</span> <span class="o">=</span> <span class="n">tangent_line</span><span class="p">(</span><span class="n">function_1</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">y2</span> <span class="o">=</span> <span class="n">tf</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y2</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;f(x)&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>0.1999999999990898
+0.2999999999986347
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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
+" />
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr />
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>편미분</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">function_2</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span>
+    <span class="c1"># 또는 return np.sum(x**2)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>앞의 예와 달리 변수가 2개이다<ul>
+<li>미분해보자<ul>
+<li>변수가 2개다</li>
+<li>어느 변수에 대한 미분이냐가 중요하다</li>
+<li>이와 같이 변수가 여럿인 함수에 대한 미분을 편미분이라고 한다.</li>
+<li>$\frac{\partial f}{\partial x_0}$</li>
+<li>$\frac{\partial f}{\partial x_1}$</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>x_0 = 3, x_1 = 4 일 때, x_0에 대한 편미분을 구해보자</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">function_tmp1</span><span class="p">(</span><span class="n">x0</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x0</span><span class="o">*</span><span class="n">x0</span> <span class="o">+</span> <span class="mi">4</span><span class="o">**</span><span class="mi">2</span>
+
+<span class="n">numerical_diff</span><span class="p">(</span><span class="n">function_tmp1</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>6.00000000000378</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">function_tmp2</span><span class="p">(</span><span class="n">x1</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mi">3</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">x1</span><span class="o">*</span><span class="n">x1</span>
+
+<span class="n">numerical_diff</span><span class="p">(</span><span class="n">function_tmp2</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>7.999999999999119</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>변수가 하나인 함수를 정의하고, 그 함수를 미분하는 형태로 구현하여 풀었다. <ul>
+<li>예를 들어 문제 1에서는 x1=4로 고정된 새로운 함수를 정의하고 변수가 x0 하나뿐인 함수에 대해 이전에 정의해두었던 수치 미분 함수를 적용하였따. </li>
+<li>이처럼 편미분은 변수가 하나인 미분과 마찬가지로 특정 장소의 기울기를 구한다.</li>
+<li>단, 여러 변수 중 목표 변수 하나에 초점을 맞추고 다른 변수는 값을 고정한다. </li>
+<li>앞의 예에서는 목표 변수를 제외한 나머지를 특정 값에 고정하기 위해서 새로운 함수를 정의했다.</li>
+<li>그리고 그 새로이 정의한 함수에 대해 그동안 사용한 수치 미분 함수를 적용하여 편미분을 구한 것이다.</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr />
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>기울기<ul>
+<li>위에선 x0와 x1에 대한 편미분 각각을 구했다. 이번엔 편미분을 묶어서</li>
+<li>($\frac{\partial f}{\partial x_0}$, $\frac{\partial f}{\partial x_1}$)</li>
+<li>을 계산해본다고 해보자. 이때 ($\frac{\partial f}{\partial x_0}$, $\frac{\partial f}{\partial x_1}$)처럼 모든 변수의 편미분을 벡터로 정리한 것을 <code>기울기</code>라고 한다.</li>
+<li>구현해보자</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">numerical_gradient</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="mf">1e-4</span>
+    <span class="n">grad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="c1"># x와 형상이 같은 배열을 생성</span>
+    
+    <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">):</span>
+        <span class="n">tmp_val</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+        <span class="c1"># f(x+h) 계산</span>
+        <span class="n">x</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp_val</span> <span class="o">+</span> <span class="n">h</span>
+        <span class="n">fxh1</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        
+        <span class="c1"># f(x-h) 계산</span>
+        <span class="n">x</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp_val</span> <span class="o">-</span> <span class="n">h</span>
+        <span class="n">fxh2</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        
+        <span class="n">grad</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">fxh1</span> <span class="o">-</span> <span class="n">fxh2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">h</span><span class="p">)</span>
+        <span class="n">x</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp_val</span> <span class="c1"># 값 복원</span>
+
+    <span class="k">return</span> <span class="n">grad</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>좀 복잡해보이지만 동작 방식은 변수가 하나일 때의 수치 미분과 거의 동일하다</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">numerical_gradient</span><span class="p">(</span><span class="n">function_2</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">3.0</span><span class="p">,</span><span class="mf">4.0</span><span class="p">]))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([6., 8.])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">numerical_gradient</span><span class="p">(</span><span class="n">function_2</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">2.0</span><span class="p">]))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([0., 4.])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">numerical_gradient</span><span class="p">(</span><span class="n">function_2</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">3.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">]))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([6., 0.])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>아직은 잘 모르겠지만 numerical_gradient함수에 인수로 넘파이 배열 입력해줄 때, 소수형태가 아닌 int형태로 입력해주면 값이 현저히 달라짐</li>
+<li>그런데 이 기울기가 의미하는 건 뭘까, 그림으로 그려서 이해해보자<ul>
+<li>기울기의 결과에 마이너스를 붙인 벡터를 그린것이다.</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>기울기 그림을 살펴보면 방향을 가진 벡터로 그려진다. </li>
+<li>기욹는 함수의 가장 낮은 장소(최솟값)를 가리키는 것 같다. </li>
+<li>또 가장 낮은 곳(최솟값)에서 멀어질수록 화살표의 크기가 커짐을 알 수 있다.</li>
+<li>위 그림에서 기울기는 가장 낮은 장소를 가리킨다. 실제는 반드시 그렇다고는 할 수 없다.</li>
+<li>사실 기울기는 각 지점에서 낮아지는 방향을 가리킨다. <ul>
+<li>#### <strong><em><code>더 정확히 말하자면 기울기가 가리키는 쪽은 각 장소에서 함수의 출력 값을 가장 크게 줄이는 방향이다</code></em></strong></li>
+<li>(※ 매우중요)</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr />
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>경사법(경사 하강법)<ul>
+<li>기계학습 문제 대부분은 학습 단계에서 최적의 매개변수를 찾아낸다. 신경망 역시 최적의 매개변수(가중치와 편향)를 학습 시에 찾아야 한다. 여기에서 최적이란 손실 함수가 최솟값이 될 때의 매개변수 값이다. 이런 상황에서 기울기를 잘 이용해 함수의 최소값(또는 가능한 한 작은 값)을 찾으려는 것이 경사법이다.</li>
+<li>여기에서 주의할 점은 각 지점에서 함수의 값을 낮추는 방안을 제시하는 지표가 기울기라는 것이다.<ul>
+<li>그렇지만 기울기가 가리키는 곳에 정말 함수의 최솟값이 있는지, 즉 그쪽이 정말로 나아갈 방향인지는 보장할 수 없다. 실제로 복잡한 함수에서는 기울기가 가리키는 방향에 최솟값이 없는 경우가 대부분이다.</li>
+</ul>
+</li>
+<li>기울어진 방향이 꼭 최솟값을 가리키는 것은 아니나, 그 방향으로 가야 함수의 값을 줄일 수 있다. </li>
+<li>그래서 최솟값이 되는 장소를 찾는 문제, 아니면 가능한 한 작은 값이 되는 장소를 찾는 문제에서는 기울기 정보를 단서로 나아갈 방향을 정해야 한다. </li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>경사법 : 현 위치에서 기울어진 방향으로 일정 거리만큼 이동한다. 그런 다음 이동한 곳에서도 마찬가지로 기울기를 구하고, 또 그 기울어진 방향으로 나아가기를 반복한다. 이렇게 해서 함수의 값을 줄이는 것이 경사법이다. 경사법은 기계학습을 최적화하는 데 흔히 쓰는 방법이다. 특히 신경망에서는 경사법을 많이 사용한다.</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>경사법을 수식으로 나타내보자<ul>
+<li>$x_0 = x_0 - \eta \frac{\partial f}{\partial x_0}$</li>
+<li>$x_1 = x_1 - \eta \frac{\partial f}{\partial x_1}$</li>
+</ul>
+</li>
+<li>$\eta$는 갱신하는 양이다. 신경망 학습에서는 학습률이라고 한다. 한 번의 학습으로 얼마만큼 학습해야 할지, 즉 매개변수 값을 얼마나 갱신하느냐를 정하는 것이 학습률이다.</li>
+<li>위 식은 1회에 해당하는 갱신이고, 이 단계를 반복한다. </li>
+<li>위 단계를 반복하며 서서히 함수의 값을 줄이는 것이다.</li>
+<li>또한 학습률은 0.01 혹은 0.001 등 미리 특정한 값으로 정해두어야 하는데, 일반적으로 이 값이 너무 크거나 작으면 좋은 장소를 찾아갈 수 없다. 신경망 학습에서는 보통 이 학습률 값을 변경하면서 올바르게 학습하고 있는지를 확인하면서 진행한다.</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr />
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>경사 하강법을 구현해보자</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">gradient_descent</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">init_x</span><span class="p">,</span><span class="n">lr</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span><span class="n">step_num</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">init_x</span>
+    
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">step_num</span><span class="p">):</span>
+        <span class="n">grad</span> <span class="o">=</span> <span class="n">numerical_gradient</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span><span class="o">-=</span> <span class="n">lr</span><span class="o">*</span><span class="n">grad</span>
+    <span class="k">return</span> <span class="n">x</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>f = 최적화하려는 함수</li>
+<li>init_x = 초깃값</li>
+<li>lr = 학습률</li>
+<li>step_num = 경사법에 따른 반복횟수</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">function_2</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span>
+
+<span class="n">init_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">3.0</span><span class="p">,</span><span class="mf">4.0</span><span class="p">])</span>
+<span class="n">gradient_descent</span><span class="p">(</span><span class="n">function_2</span><span class="p">,</span><span class="n">init_x</span><span class="o">=</span><span class="n">init_x</span><span class="p">,</span><span class="n">lr</span> <span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">step_num</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([-6.11110793e-10,  8.14814391e-10])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>초깃값을 (-3.0,4.0)으로 설정한 후 경사법을 사용해 최솟값 탐색을 시작한다. </li>
+<li>최종 결과는 거의 (0,0)에 가깝다. 실제로 진정한 최솟값을 (0,0)이므로 경사법으로 거의 정확한 결과를 얻은 것이다.</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr />
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>학습률을 달리하여 해보자</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">init_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">3.0</span><span class="p">,</span><span class="mf">4.0</span><span class="p">])</span>
+<span class="n">gradient_descent</span><span class="p">(</span><span class="n">function_2</span><span class="p">,</span><span class="n">init_x</span><span class="o">=</span><span class="n">init_x</span><span class="p">,</span><span class="n">lr</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span><span class="n">step_num</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([-2.58983747e+13, -1.29524862e+12])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>너무 크게 했더니 큰 값으로 발산해버렸다</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">init_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">3.0</span><span class="p">,</span><span class="mf">4.0</span><span class="p">])</span>
+<span class="n">gradient_descent</span><span class="p">(</span><span class="n">function_2</span><span class="p">,</span><span class="n">init_x</span><span class="o">=</span><span class="n">init_x</span><span class="p">,</span><span class="n">lr</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">,</span><span class="n">step_num</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([-2.99999994,  3.99999992])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>너무 작게 했더니 거의 갱신하지 않고 끝났다</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>$\to$ 따라서 학습률을 적절히 설정하는 일은 중요하다</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>학습률과 같은 매개 변수를 하이퍼 파라미터라고 한다. 이는 가중치와 편향같은 신경망의 매개변수와는 성질이 다른 매개변수이다. 신경망의 가중치 매개변수는 훈련 데이터와 학습 알고리즘에 의해서 자동으로 획득되는 매개변수인 반면, 학습률 같은 하이퍼 파라미터는 사람이 직접 설정해야 하는 매개변수인 것이다. 일반적으로는 이 하이퍼파라미터들은 여러 후보 값 중에서 시험을 통해 가장 잘 학습하는 값을 찾는 과정을 거쳐야 한다.</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr />
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>신경망에서의 기울기<ul>
+<li>여기서 말하는 기울기는 가중치 매개변수에 대한 손실 함수의 기울기이다.</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">os</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">pardir</span><span class="p">)</span>  <span class="c1"># 부모 디렉터리의 파일을 가져올 수 있도록 설정</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">common.functions</span> <span class="kn">import</span> <span class="n">softmax</span><span class="p">,</span> <span class="n">cross_entropy_error</span>
+<span class="kn">from</span> <span class="nn">common.gradient</span> <span class="kn">import</span> <span class="n">numerical_gradient</span>
+
+
+<span class="k">class</span> <span class="nc">simpleNet</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">W</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span> <span class="c1"># 정규분포로 초기화</span>
+
+    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">W</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">loss</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">softmax</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">cross_entropy_error</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">loss</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>simpleNet 클래스는 형상이 2x3인 가중치 매개변수 하나를 인스턴스 변수로 갖는다.</li>
+<li>메서드는 2개인데, 하나는 예측을 수행하는 predict이고 다른 하나는 손실 함수의 값을 구하는 loss이다. 여기서 x는 입력데이터, t는 정답 레이블이다.</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">net</span> <span class="o">=</span> <span class="n">simpleNet</span><span class="p">()</span>
+<span class="c1"># 가중치 매개변수</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">net</span><span class="o">.</span><span class="n">W</span><span class="p">)</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">])</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<span class="c1"># 최댓값의 인덱스</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">p</span><span class="p">))</span>
+
+<span class="c1"># 정답 레이블</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">net</span><span class="o">.</span><span class="n">loss</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">t</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[[ 0.48129772  0.4062162  -0.31963495]
+ [ 0.11586695  1.06101565 -0.79045592]]
+[ 0.39305889  1.19864381 -0.90319129]
+1
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>2.5523095142122116</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>이어서 기울기를 구해보자</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">W</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">net</span><span class="o">.</span><span class="n">loss</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">t</span><span class="p">)</span>
+
+<span class="n">dW</span> <span class="o">=</span> <span class="n">numerical_gradient</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">net</span><span class="o">.</span><span class="n">W</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">dW</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[[ 0.17086397  0.38239445 -0.55325842]
+ [ 0.25629596  0.57359168 -0.82988764]]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>람다를 사용해 아래와 같이 구현할 수 있겠다</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">w</span><span class="p">:</span> <span class="n">net</span><span class="o">.</span><span class="n">loss</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
+<span class="n">dW</span> <span class="o">=</span> <span class="n">numerical_gradient</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">net</span><span class="o">.</span><span class="n">W</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">dW</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[[ 0.17086397  0.38239445 -0.55325842]
+ [ 0.25629596  0.57359168 -0.82988764]]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>신경망의 기울기를 구한 다음에는 경사법에 따라 가중치 매개변수를 갱신하기만 하면 된다. 다름 절에서는 2층 신경망을 대상으로 학습 과정 전체를 구현해보자</li>
+<li>135p참고하기</li>
+</ul>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+  </div><a class="u-url" href="/INTROdl/2022/02/09/dl-Copy1.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/INTROdl/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/INTROdl/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/INTROdl/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>An easy to use blogging platform with support for Jupyter Notebooks.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/rhkrehtjd" target="_blank" title="rhkrehtjd"><svg class="svg-icon grey"><use xlink:href="/INTROdl/assets/minima-social-icons.svg#github"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
