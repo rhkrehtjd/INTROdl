@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>연쇄 법칙과 역전파 | INTROdl</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="연쇄 법칙과 역전파" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="An easy to use blogging platform with support for Jupyter Notebooks." />
+<meta property="og:description" content="An easy to use blogging platform with support for Jupyter Notebooks." />
+<link rel="canonical" href="https://rhkrehtjd.github.io/INTROdl/2022/02/12/dl.html" />
+<meta property="og:url" content="https://rhkrehtjd.github.io/INTROdl/2022/02/12/dl.html" />
+<meta property="og:site_name" content="INTROdl" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-02-12T00:00:00-06:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="연쇄 법칙과 역전파" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2022-02-12T00:00:00-06:00","datePublished":"2022-02-12T00:00:00-06:00","description":"An easy to use blogging platform with support for Jupyter Notebooks.","headline":"연쇄 법칙과 역전파","mainEntityOfPage":{"@type":"WebPage","@id":"https://rhkrehtjd.github.io/INTROdl/2022/02/12/dl.html"},"url":"https://rhkrehtjd.github.io/INTROdl/2022/02/12/dl.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/INTROdl/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://rhkrehtjd.github.io/INTROdl/feed.xml" title="INTROdl" /><link rel="shortcut icon" type="image/x-icon" href="/INTROdl/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/INTROdl/">INTROdl</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/INTROdl/about/">About Me</a><a class="page-link" href="/INTROdl/search/">Search</a><a class="page-link" href="/INTROdl/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">연쇄 법칙과 역전파</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-02-12T00:00:00-06:00" itemprop="datePublished">
+        Feb 12, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      4 min read
+    
+</span></p>
+
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-justify-center">
+          <div class="px-2">
+
+    <a href="https://github.com/rhkrehtjd/INTROdl/tree/master/_notebooks/2022-02-12-dl.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/INTROdl/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/rhkrehtjd/INTROdl/master?filepath=_notebooks%2F2022-02-12-dl.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/INTROdl/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/rhkrehtjd/INTROdl/blob/master/_notebooks/2022-02-12-dl.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/INTROdl/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+          <div class="px-2">
+  <a href="https://deepnote.com/launch?url=https%3A%2F%2Fgithub.com%2Frhkrehtjd%2FINTROdl%2Fblob%2Fmaster%2F_notebooks%2F2022-02-12-dl.ipynb" target="_blank">
+      <img class="notebook-badge-image" src="/INTROdl/assets/badges/deepnote.svg" alt="Launch in Deepnote"/>
+  </a>
+</div>
+
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2022-02-12-dl.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>역전파 : 국소적인 미분을 순방향과는 방대인 오른쪽에서 왼쪽으로 전달한다. 또한, 이런 국소적 미분을 전달하는 원리는 연쇄 법칙에 따른 것이다. <ul>
+<li>연쇄 법칙 : 합성 함수의 미분은 합성 함수를 구성하는 각 함수의 미분의 곱으로 나타낼 수 있다. 이것이 연쇄 법칙의 원리이다. </li>
+<li>$\frac{\partial z}{\partial x} = \frac{\partial z}{\partial t}\frac{\partial t}{\partial x}$</li>
+</ul>
+</li>
+<li>역전파의 계산 절차는 신호 E에 노드의 국소적 미분을 곱한 후 다음 노드로 전달하는 것이다. 여기에서 말하는 국소적 미분은 순전파 때의 y=f(x) 계산의 미분을 구한다는 것이며, 이는 x에대한 y의 미분을 구한다는 뜻이다. </li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>덧셈 노드의 역전파<ul>
+<li>역전파 때는 상류에서 전해진 미분에 1을 곱하여 하류로 흘린다. 즉, 덧셈 노드의 역전파는 1을 곱하기만 할 뿐이므로 입력된 값을 그대로 다음 노드로 보내게 된다. </li>
+</ul>
+</li>
+<li>곱셈 노드의 역전파<ul>
+<li>상류의 값에 순전파 때의 입력 신호들을 서로 바꾼 값을 곱해서 하류로 보낸다. 서로 바꾼 값이란 순전파 때 x였다면 역전파에서는 y, 순전파 때 y였다면 역전파에서는 x로 바꾼다는 의미이다.</li>
+</ul>
+</li>
+</ul>
+<blockquote><p>덧셈의 역전파에서는 상류의 값을 그대로 흘려보내서 순방향 입력 신호의 값을 필요하지 않았지만, 곱셈의 역전파는 순방향 입력 신호의 값이 필요하다. 그래서 곱셈 노드를 구현할 때는 순전파의 입력 신호를 변수에 저장해둔다.</p>
+</blockquote>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>앞서 들었던 사과 쇼핑의 예를 들어보자<ul>
+<li>이 문제에서는 사과의 가격, 사과의 개수, 소비세라는 세 변수 각각이 최종 금액에 어떻게 영향을 주느냐를 풀고자 한다. 이는 사과 가격에 대한 지불 금액의 미분, 사과 개수에 대한 지불 금액의 미분, 소비세에 대한 지불 금액의 미분을 구하는 것에 해당한다. </li>
+<li>앞서 곱셈 노드의 역전파에서는 입력 신호를 서로 바꿔서 하류로 흘린다고 했다. 결과를 보면 사과 과격의 미분은 2.2, 사과 개수의 미분은 110, 소비세의 미분은 200이다. 이는 소비세와 사과 과격이 같은 양만큼 오르면 최종 금액에는 소비세가 200의 크기로 사과 과격이 2.2 크기로 영향을 준다고 해석할 수 있다. 단, 단위는 조심하여야 한다. </li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr />
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>지금까지 보아온 사과 쇼핑의 예를 파이썬으로 구현해보자</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>먼저, 곱셈 계층부터 구현해보자</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">MulLayer</span><span class="p">:</span> <span class="c1"># 곱셈 노드</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="c1"># 생성자 함수로써 인스턴스 변수인 x와 y를 초기화한다. </span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span> <span class="c1"># 순전파</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span>                
+        <span class="n">out</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">y</span>
+
+        <span class="k">return</span> <span class="n">out</span>
+
+    <span class="k">def</span> <span class="nf">backward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dout</span><span class="p">):</span> <span class="c1"># 역전파</span>
+        <span class="n">dx</span> <span class="o">=</span> <span class="n">dout</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span>  <span class="c1"># x와 y를 바꾼다.</span>
+        <span class="n">dy</span> <span class="o">=</span> <span class="n">dout</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span>
+
+        <span class="k">return</span> <span class="n">dx</span><span class="p">,</span> <span class="n">dy</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>순전파에서는 x와 y를 인수로 받고 두 값을 곱해서 반환한다. 반면 역전파에서는 상류에서 넘어온 미분(dout)에 순전파 때의 값을 서로 바꿔 곱한 후 하류로 흘려보낸다. </li>
+<li>해당 클래스를 이용하여 사과 쇼핑 예시에서의 순전파를 구현해보자</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">apple</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">apple_num</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">tax</span> <span class="o">=</span> <span class="mf">1.1</span>
+
+<span class="c1"># 계층들</span>
+<span class="n">mul_apple_layer</span> <span class="o">=</span> <span class="n">MulLayer</span><span class="p">()</span>
+<span class="n">mul_tax_layer</span> <span class="o">=</span> <span class="n">MulLayer</span><span class="p">()</span>
+
+<span class="c1"># forward</span>
+<span class="n">apple_price</span> <span class="o">=</span> <span class="n">mul_apple_layer</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">apple</span><span class="p">,</span> <span class="n">apple_num</span><span class="p">)</span>
+<span class="n">price</span> <span class="o">=</span> <span class="n">mul_tax_layer</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">apple_price</span><span class="p">,</span> <span class="n">tax</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">price</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>220
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>각 변수에 대한 미분은 backward()에서 구할 수 있다.</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dprice</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">dapple_price</span><span class="p">,</span> <span class="n">dtax</span> <span class="o">=</span> <span class="n">mul_tax_layer</span><span class="o">.</span><span class="n">backward</span><span class="p">(</span><span class="n">dprice</span><span class="p">)</span>
+<span class="n">dapple</span><span class="p">,</span> <span class="n">dapple_num</span> <span class="o">=</span> <span class="n">mul_apple_layer</span><span class="o">.</span><span class="n">backward</span><span class="p">(</span><span class="n">dapple_price</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;dApple:&quot;</span><span class="p">,</span> <span class="n">dapple</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;dApple_num:&quot;</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">dapple_num</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;dTax:&quot;</span><span class="p">,</span> <span class="n">dtax</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>dApple: 2.2
+dApple_num: 110
+dTax: 200
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>backward() 호출 순서는 forward()때와는 반대이다. 또 backward()가 받는 인수는 순전파의 출력에 대한 미분이다. 가령 mul_apple_layer()라는 곱셈 계층은 순전파 때는 apple_price를 반환하지만 역전파 때는 apple_price의 미분 값인 dapple_price를 인수로 받는다. </li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr />
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>덧셈 계층을 구현해보자</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">AddLayer</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span> <span class="c1"># 덧셈 계층에서는 초기화가 필요없으니 pass처리 한다.</span>
+    
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">):</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">x</span><span class="o">+</span><span class="n">y</span>
+        <span class="k">return</span> <span class="n">out</span>
+    
+    <span class="k">def</span> <span class="nf">backward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dout</span><span class="p">):</span>
+        <span class="n">dx</span> <span class="o">=</span> <span class="n">dout</span> <span class="o">*</span> <span class="mi">1</span>
+        <span class="n">dy</span> <span class="o">=</span> <span class="n">dout</span> <span class="o">*</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">dx</span><span class="p">,</span><span class="n">dy</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>전체적인 계산 그래프를 파이썬으로 구현해보자</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">apple</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">apple_num</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">orange</span> <span class="o">=</span> <span class="mi">150</span>
+<span class="n">orange_num</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">tax</span> <span class="o">=</span> <span class="mf">1.1</span>
+
+<span class="c1"># layer</span>
+<span class="n">mul_apple_layer</span> <span class="o">=</span> <span class="n">MulLayer</span><span class="p">()</span>
+<span class="n">mul_orange_layer</span> <span class="o">=</span> <span class="n">MulLayer</span><span class="p">()</span>
+<span class="n">add_apple_orange_layer</span> <span class="o">=</span> <span class="n">AddLayer</span><span class="p">()</span>
+<span class="n">mul_tax_layer</span> <span class="o">=</span> <span class="n">MulLayer</span><span class="p">()</span>
+
+<span class="c1"># forward</span>
+<span class="n">apple_price</span> <span class="o">=</span> <span class="n">mul_apple_layer</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">apple</span><span class="p">,</span> <span class="n">apple_num</span><span class="p">)</span>  <span class="c1"># (1)</span>
+<span class="n">orange_price</span> <span class="o">=</span> <span class="n">mul_orange_layer</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">orange</span><span class="p">,</span> <span class="n">orange_num</span><span class="p">)</span>  <span class="c1"># (2)</span>
+<span class="n">all_price</span> <span class="o">=</span> <span class="n">add_apple_orange_layer</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">apple_price</span><span class="p">,</span> <span class="n">orange_price</span><span class="p">)</span>  <span class="c1"># (3)</span>
+<span class="n">price</span> <span class="o">=</span> <span class="n">mul_tax_layer</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">all_price</span><span class="p">,</span> <span class="n">tax</span><span class="p">)</span>  <span class="c1"># (4)</span>
+
+<span class="c1"># backward</span>
+<span class="n">dprice</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">dall_price</span><span class="p">,</span> <span class="n">dtax</span> <span class="o">=</span> <span class="n">mul_tax_layer</span><span class="o">.</span><span class="n">backward</span><span class="p">(</span><span class="n">dprice</span><span class="p">)</span>  <span class="c1"># (4)</span>
+<span class="n">dapple_price</span><span class="p">,</span> <span class="n">dorange_price</span> <span class="o">=</span> <span class="n">add_apple_orange_layer</span><span class="o">.</span><span class="n">backward</span><span class="p">(</span><span class="n">dall_price</span><span class="p">)</span>  <span class="c1"># (3)</span>
+<span class="n">dorange</span><span class="p">,</span> <span class="n">dorange_num</span> <span class="o">=</span> <span class="n">mul_orange_layer</span><span class="o">.</span><span class="n">backward</span><span class="p">(</span><span class="n">dorange_price</span><span class="p">)</span>  <span class="c1"># (2)</span>
+<span class="n">dapple</span><span class="p">,</span> <span class="n">dapple_num</span> <span class="o">=</span> <span class="n">mul_apple_layer</span><span class="o">.</span><span class="n">backward</span><span class="p">(</span><span class="n">dapple_price</span><span class="p">)</span>  <span class="c1"># (1)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;price:&quot;</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">price</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;dApple:&quot;</span><span class="p">,</span> <span class="n">dapple</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;dApple_num:&quot;</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">dapple_num</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;dOrange:&quot;</span><span class="p">,</span> <span class="n">dorange</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;dOrange_num:&quot;</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">dorange_num</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;dTax:&quot;</span><span class="p">,</span> <span class="n">dtax</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>price: 715
+dApple: 2.2
+dApple_num: 110
+dOrange: 3.3000000000000003
+dOrange_num: 165
+dTax: 650
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr />
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>활성화 함수 계층을 구현해보자, 계산 그래프를 신경망에 적용해보자<ul>
+<li>ReUL 계층, 165p 참고.</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Relu</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mask</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="c1"># 해당 클래스는 mask라는 인스턴스 변수를 갖는다. bool형 넘파이 배열로 사용될 것이다.</span>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">&lt;=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">out</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">mask</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        
+        <span class="k">return</span> <span class="n">out</span>
+    <span class="k">def</span> <span class="nf">backward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">dout</span><span class="p">):</span>
+        <span class="n">dout</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">mask</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">dx</span> <span class="o">=</span> <span class="n">sout</span>
+        
+        <span class="k">return</span> <span class="n">dx</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mf">0.5</span><span class="p">],[</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">mask</span> <span class="o">=</span> <span class="n">x</span><span class="o">&lt;=</span><span class="mi">0</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[[ 1.  -0.5]
+ [-2.   3. ]]
+
+
+[[False  True]
+ [ True False]]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>이제 sigmoid 함수를 구현해보자<ul>
+<li>+와 x노드 말고도 exp와 /노드도 필요하다.</li>
+<li>자세한 과정은 167p부터 169p를 참고하자</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Sigmoid</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">out</span> <span class="o">=</span> <span class="kc">None</span>
+        
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">out</span> <span class="o">=</span> <span class="n">out</span>
+        
+    <span class="k">def</span> <span class="nf">backward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dout</span><span class="p">):</span>
+        <span class="n">dx</span> <span class="o">=</span> <span class="n">dout</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">out</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">out</span>
+        
+        <span class="k">return</span> <span class="n">dx</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>해당 구현에서는 순전파의 출력을 인스턴스 변수 out에 보관했다가, 역전파 계산 때 그 값을 사용하는 것이다.</li>
+</ul>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+  </div><a class="u-url" href="/INTROdl/2022/02/12/dl.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/INTROdl/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/INTROdl/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/INTROdl/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>An easy to use blogging platform with support for Jupyter Notebooks.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/rhkrehtjd" target="_blank" title="rhkrehtjd"><svg class="svg-icon grey"><use xlink:href="/INTROdl/assets/minima-social-icons.svg#github"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
