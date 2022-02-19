@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>3차원 데이터의 합성곱 연산, 풀링 계층 | INTROdl</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="3차원 데이터의 합성곱 연산, 풀링 계층" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="An easy to use blogging platform with support for Jupyter Notebooks." />
+<meta property="og:description" content="An easy to use blogging platform with support for Jupyter Notebooks." />
+<link rel="canonical" href="https://rhkrehtjd.github.io/INTROdl/2022/02/19/dl.html" />
+<meta property="og:url" content="https://rhkrehtjd.github.io/INTROdl/2022/02/19/dl.html" />
+<meta property="og:site_name" content="INTROdl" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-02-19T00:00:00-06:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="3차원 데이터의 합성곱 연산, 풀링 계층" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2022-02-19T00:00:00-06:00","datePublished":"2022-02-19T00:00:00-06:00","description":"An easy to use blogging platform with support for Jupyter Notebooks.","headline":"3차원 데이터의 합성곱 연산, 풀링 계층","mainEntityOfPage":{"@type":"WebPage","@id":"https://rhkrehtjd.github.io/INTROdl/2022/02/19/dl.html"},"url":"https://rhkrehtjd.github.io/INTROdl/2022/02/19/dl.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/INTROdl/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://rhkrehtjd.github.io/INTROdl/feed.xml" title="INTROdl" /><link rel="shortcut icon" type="image/x-icon" href="/INTROdl/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/INTROdl/">INTROdl</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/INTROdl/about/">About Me</a><a class="page-link" href="/INTROdl/search/">Search</a><a class="page-link" href="/INTROdl/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">3차원 데이터의 합성곱 연산, 풀링 계층</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-02-19T00:00:00-06:00" itemprop="datePublished">
+        Feb 19, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      4 min read
+    
+</span></p>
+
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-justify-center">
+          <div class="px-2">
+
+    <a href="https://github.com/rhkrehtjd/INTROdl/tree/master/_notebooks/2022-02-19-dl.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/INTROdl/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/rhkrehtjd/INTROdl/master?filepath=_notebooks%2F2022-02-19-dl.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/INTROdl/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/rhkrehtjd/INTROdl/blob/master/_notebooks/2022-02-19-dl.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/INTROdl/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+          <div class="px-2">
+  <a href="https://deepnote.com/launch?url=https%3A%2F%2Fgithub.com%2Frhkrehtjd%2FINTROdl%2Fblob%2Fmaster%2F_notebooks%2F2022-02-19-dl.ipynb" target="_blank">
+      <img class="notebook-badge-image" src="/INTROdl/assets/badges/deepnote.svg" alt="Launch in Deepnote"/>
+  </a>
+</div>
+
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2022-02-19-dl.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>지금까지 2차원 형상을 다루는 합성곱 연산을 살펴봤다. 그러나 이미지만 해도 세로,가로,채널까지 총 3차원 데이터이다. </li>
+<li>채널 쪽으로 특징 맵이 여러 개 있다면 입력 데이터와 필터의 합성곱 연산을 채널마다 수행하고, 그 결과를 더해서 하나의 출력을 얻는다. </li>
+<li>3차원 합성곱 연산에서 주의할 점은 입력 데이터의 채널 수와 필터의 채널 수가 같아야 한다는 것이다. <ul>
+<li>한편 필터 자체의 크기는 원하는 값으로 설정할 수 있다. (단, 모든 채널의 필터가 같은 크기여야 한다.)</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>블록으로 생각하기<ul>
+<li>3차원의 합성곱 연산은 데이터와 필터를 직육면체 블록이라고 생각하면 쉽다. 예를들어 채널수C, 높이H, 너비W인 데이터의 형상은(C,H,W)로 쓴다. 필터도 같은 순서로 쓴다. </li>
+<li>합성곱 연산의 출력으로 다수의 채널을 내보내려면 어떻게 해야할까<ul>
+<li>다수의 필터(가중치)를 사용하는 것이다. </li>
+<li>이런 방식으로 완성된 블록을 다음 계층으로 넘기겠다는 것이 CNN의 처리 흐름이다. </li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>이상에서 보듯 합성곱 연산에서는 필터의 수도 고려해야 한다. 그런 이유로 필터의 가중치 데이터는 4차원 데이터이며(출력 채널 수, 입력 채널 수, 높이, 너비) 순으로 쓴다. </li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>합성곱 연산에서도 완전연결 계층과 마찬가지로 편향이 쓰인다. <ul>
+<li>편향은 채널 하나에 값 하나씩으로 구성된다. 이 예에서는 편향의 현상은 (FN,1,1)이고 필터의 출력 결과의 형상은 (FN,OH,OW)이다. 이 두블록을 더하면 편향의 각 값이 필터의 출력인 (FN,OH,OW) 블록의 대응 채널의 원소 모두에 더해진다. <ul>
+<li>참고로 형상이 다른 블록의 덧셈은 넘파이의 브로드캐스트 기능으로 쉽게 구현 가능하다.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>배치 처리<ul>
+<li>합성곱 연산도 마찬가지로 배치 처리를 지원하고자 한다. 그래서 각 계층으로 흐르는 데이터의 차원을 하나 늘려 4차원 데이터로 저장한다. 구체적으로는 데이터를 (데이터 수, 채널 수, 높이, 너비) 순으로 저장한다. </li>
+<li>여기에서 주의할 점 : 신경망에 4차원 데이터가 하나 흐를 따마다 데이터 N개에 대한 합성곱 연산이 이뤄진다는 것이다. 즉, N회 분의 처리를 한 번에 수행하는 것이다. </li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>풀링 계층<ul>
+<li>풀링은 세로, 가로 방향의 공간을 줄이는 연산이다. </li>
+<li>2x2 최대 풀링은 최댓값을 구하는 연산으로 2x2는 대상 영역의 크기를 뜻한다. 즉 2x2 최대 풀링은 2x2 크기의 영역에서 가장 큰 원소 하나를 꺼낸다. 또, 스트라이드는 이 예에서는 2로 설정했으므로 2x2 윈도우가 원소 2칸 간격으로 이동한다. 참고로 풀링의 윈도우 크기와 스트라이드는 같은 값으로 설정하는 것이 보통이다.</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>풀링 계층의 특징<ul>
+<li>1) 풀링 계층은 합성곱 계층과 달리 학습해야 할 매개변수가 없다. 풀링은 대상 영역에서 최댓값이나 평균을 취하는 명확한 처리이므로 특별히 학습할 것이 없다. </li>
+<li>2) 풀링 연산은 입력 데이터의 채널 수 그대로 출력 데이터로 내보낸다. </li>
+<li>3) 입력 데이터가 조금 변해도 풀링의 결과는 잘 변하지 않는다.</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr />
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>합성곱 풀링 계층 구현하기<ul>
+<li>CNN에서 계층 사이를 흐르는 데이터는 4차원이다. 예를 들어 데이터의 형상이 (10,1,28,28)이라면, 이는 높이28, 너비28, 채널1인 데이터가 10개라는 이야기이다. </li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">28</span><span class="p">,</span><span class="mi">28</span><span class="p">)</span>
+<span class="n">x</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(10, 1, 28, 28)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>여기 10개 중 첫 번째 데이터에 접근하려면 단순히 x[0], 또, 첫 번째 데이터의 첫 채널의 공간 데이터에 접근하려면 x[0][0],x[0,0]을 통해 접근할 수 있다. </li>
+<li>이처럼 CNN은 4차원 데이터를 다룬다. 그래서 합성곱 연산의 구현은 복잡해질 것 같지만, 다음 절에서 설명하는 im2col(image to cloumn)이라는 트릭이 문제를 단순하게 만들 수 있다. </li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>im2col<ul>
+<li>입력 데이터를 필터링(가중치 계산)하기 좋게 전개하는(펼치는) 함수이다. 3차원 입력 데이터에 im2col을 적용하면 2차원 행렬로 바뀐다. 정확히는 배치 안의 데이터 수까지 포함한 4차원 데이터를 2차원으로 변환한다. </li>
+<li>im2col은 필터링하기 좋게 입력 데이터를 전개한다. 구체적으로는 입력 데이터에서 필터를 적용하는 영역을 한 줄로 늘어놓는다. </li>
+<li>이 전개를 필터를 적용하는 모든 영역에서 수행하는 게 im2col이다.</li>
+<li>필터 적용 영역이 겹치게 되면 im2col로 전개한 후의 원소 수가 원래 블록의 원소 수보다 많아진다. 그래서 im2col을 사용해 구현하면 메모리를 더 많이 소비하는 단점이 있다. 그렇지만 이 문제를 행렬 계산으로 만들면 선형 대수 라이브러리를 활용해 효율을 높일 수 있다. </li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>im2col 방식으로 출력한 결과는 2차원 행렬이다. CNN은 데이터를 4차원 배열로 저장하므로 2차원인 출력 데이터를 4차원으로 변형한다. 이상이 합성곱 계층의 구현 흐름이다. </li>
+<li>im2col은 필터 크기, 스트라이드, 패딩을 고려하여 입력 데이터를 2차원 배열로 전개한다. 구현해보자</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">os</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">pardir</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">common.util</span> <span class="kn">import</span> <span class="n">im2col</span>
+
+<span class="n">x1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
+<span class="n">col1</span> <span class="o">=</span> <span class="n">im2col</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">stride</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">pad</span> <span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">col1</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="n">x2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
+<span class="n">col2</span> <span class="o">=</span> <span class="n">im2col</span><span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">stride</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">pad</span> <span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">col2</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>(9, 75)
+(90, 75)
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>im2col을 사용하여 합성곱 계층을 구현해보자</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Convolution</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">pad</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">W</span><span class="o">=</span><span class="n">W</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="o">=</span><span class="n">b</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stride</span><span class="o">=</span><span class="n">stride</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pad</span><span class="o">=</span><span class="n">pad</span>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">FN</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">FH</span><span class="p">,</span> <span class="n">FW</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">W</span><span class="o">.</span><span class="n">shape</span>
+        <span class="n">N</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">W</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span>
+        <span class="n">out_h</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="p">(</span> <span class="n">H</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">pad</span> <span class="o">-</span> <span class="n">FH</span><span class="p">)</span><span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">stride</span><span class="p">)</span>
+        <span class="n">out_w</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="p">(</span> <span class="n">W</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">pad</span> <span class="o">-</span> <span class="n">FW</span><span class="p">)</span><span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">stride</span><span class="p">)</span>
+        
+        <span class="n">col</span> <span class="o">=</span> <span class="n">im2col</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">FH</span><span class="p">,</span> <span class="n">FW</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">stride</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pad</span><span class="p">)</span>
+        <span class="n">col_W</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">W</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">FN</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="n">col_W</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span>
+        
+        <span class="n">out</span> <span class="o">=</span> <span class="n">im2col</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">FH</span><span class="p">,</span><span class="n">FW</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">stride</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pad</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">out</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>이상이 합성곱 계층의 forward 구현이다. </li>
+<li>합성곱 계층의 역전파는 im2col을 역으로 처리한다. </li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>풀링 계층 구현도 합성곱 계층과 마찬가지로 im2col을 사용해 입력 데이터를 전개한다. <ul>
+<li>다만, 풀링의 경우엔 채널 쪽이 독립적이라는 점이 합성곱 계층 때와 다르다. </li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Pooling</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pool_h</span><span class="p">,</span> <span class="n">pool_w</span><span class="p">,</span> <span class="n">stride</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pool_h</span> <span class="o">=</span> <span class="n">pool_h</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pool_w</span> <span class="o">=</span> <span class="n">pool_w</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stirde</span> <span class="o">=</span> <span class="n">pool_stirde</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pad</span> <span class="o">=</span> <span class="n">pad</span>
+        
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">w</span><span class="p">):</span>
+        <span class="n">N</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">W</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span>
+        <span class="n">out_h</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="p">(</span> <span class="n">H</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">pad</span> <span class="o">-</span> <span class="n">FH</span><span class="p">)</span><span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">stride</span><span class="p">)</span>
+        <span class="n">out_w</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="p">(</span> <span class="n">W</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">pad</span> <span class="o">-</span> <span class="n">FW</span><span class="p">)</span><span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">stride</span><span class="p">)</span>
+        
+        <span class="c1"># 전개 </span>
+        <span class="n">col</span> <span class="o">=</span> <span class="n">im2col</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool_h</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool_w</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">stride</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pad</span><span class="p">)</span>
+        <span class="n">col</span> <span class="o">=</span> <span class="n">col</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool_h</span> <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">pool_w</span><span class="p">)</span>
+        
+        <span class="c1"># 최댓값</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+        
+        <span class="c1"># 성형</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">out_h</span><span class="p">,</span> <span class="n">out_w</span><span class="p">,</span> <span class="n">C</span><span class="p">)</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">out</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>풀링 계층 구현<ul>
+<li>1) 입력 데이터를 전개한다. </li>
+<li>2) 행별 최댓값을 구한다. </li>
+<li>3) 적절한 모양으로 성형한다. </li>
+</ul>
+</li>
+</ul>
+<blockquote><p>최댓값 계산에는 넘파이의 np.max 메서드를 사용할 수 있다. np.max는 인수로 축(axis)을 지정할 수 있는데, 이 인수로 지정한 축마다 최댓값을 구할 수 있다. 가령 np.max(x, axis=1)과 같이 쓰면 입력 x의 1번째 차원(0번째가 아닌)의 축마다 최댓값을 반환해준다.</p>
+</blockquote>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+  </div><a class="u-url" href="/INTROdl/2022/02/19/dl.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/INTROdl/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/INTROdl/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/INTROdl/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>An easy to use blogging platform with support for Jupyter Notebooks.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/rhkrehtjd" target="_blank" title="rhkrehtjd"><svg class="svg-icon grey"><use xlink:href="/INTROdl/assets/minima-social-icons.svg#github"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
