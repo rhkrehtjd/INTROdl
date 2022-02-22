@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>딥러닝 좀 더 알아보기 | INTROdl</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="딥러닝 좀 더 알아보기" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="An easy to use blogging platform with support for Jupyter Notebooks." />
+<meta property="og:description" content="An easy to use blogging platform with support for Jupyter Notebooks." />
+<link rel="canonical" href="https://rhkrehtjd.github.io/INTROdl/2022/02/22/dl.html" />
+<meta property="og:url" content="https://rhkrehtjd.github.io/INTROdl/2022/02/22/dl.html" />
+<meta property="og:site_name" content="INTROdl" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-02-22T00:00:00-06:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="딥러닝 좀 더 알아보기" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2022-02-22T00:00:00-06:00","datePublished":"2022-02-22T00:00:00-06:00","description":"An easy to use blogging platform with support for Jupyter Notebooks.","headline":"딥러닝 좀 더 알아보기","mainEntityOfPage":{"@type":"WebPage","@id":"https://rhkrehtjd.github.io/INTROdl/2022/02/22/dl.html"},"url":"https://rhkrehtjd.github.io/INTROdl/2022/02/22/dl.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/INTROdl/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://rhkrehtjd.github.io/INTROdl/feed.xml" title="INTROdl" /><link rel="shortcut icon" type="image/x-icon" href="/INTROdl/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/INTROdl/">INTROdl</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/INTROdl/about/">About Me</a><a class="page-link" href="/INTROdl/search/">Search</a><a class="page-link" href="/INTROdl/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">딥러닝 좀 더 알아보기</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-02-22T00:00:00-06:00" itemprop="datePublished">
+        Feb 22, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      5 min read
+    
+</span></p>
+
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-justify-center">
+          <div class="px-2">
+
+    <a href="https://github.com/rhkrehtjd/INTROdl/tree/master/_notebooks/2022-02-22-dl.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/INTROdl/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/rhkrehtjd/INTROdl/master?filepath=_notebooks%2F2022-02-22-dl.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/INTROdl/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/rhkrehtjd/INTROdl/blob/master/_notebooks/2022-02-22-dl.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/INTROdl/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+          <div class="px-2">
+  <a href="https://deepnote.com/launch?url=https%3A%2F%2Fgithub.com%2Frhkrehtjd%2FINTROdl%2Fblob%2Fmaster%2F_notebooks%2F2022-02-22-dl.ipynb" target="_blank">
+      <img class="notebook-badge-image" src="/INTROdl/assets/badges/deepnote.svg" alt="Launch in Deepnote"/>
+  </a>
+</div>
+
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2022-02-22-dl.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>정확도를 더 높일 수 있는 기술에는 무엇이 있을까<ul>
+<li>앙상블 학습, 학습률 감소, 데이터 확장 등이 정확도 향상에 공헌할 수 있다. 특히 데이터 확장은 손쉬운 방법이면서도 정확도 개선에 아주 효과적이다. </li>
+<li>데이터 확장 : 입력 이미지(훈련 이미지)를 알고리즘을 동원해 인위적으로 확장한다. 입력 이미지를 회전하거나 세로로 이동하는 등 미세한 변화를 이미지의 개수를 늘리는 것이다. 이는 데이터가 몇 개 없을 때 특히 효과적인 수단이다. 또는 이미지 일부를 잘라내는 crop이나 좌우를 뒤집는 flip(대칭성을 고려하지 않아도 되는 경우에 사용할 수 있다)등이 있을 수 있다. 일반적인 이미지에는 밝기 등의 외형 변화나 확대, 축소 등의 스케일 변화도 효과적이다. </li>
+<li>즉, 데이터 확장을 동원해 훈련 이미지의 개수를 늘릴 수 있다면 딥러닝의 인식 수준을 개선할 수 있다. </li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>층을 왜 깊게 할까<ul>
+<li>층을 깊게 할 때의 이점<ul>
+<li>1) 신경망의 매개변수 수가 줄어든다는 것이다. </li>
+<li>2) 층을 깊게 함으로써 학습 데이터의 양을 줄여 학습을 고속으로 수행한다. 즉, 학습의 효율성을 고려하게 된다는 것이다.</li>
+<li>3) 학습해여 할 문제를 계층적으로 분해할 수 있다. 각 층이 학습해야 할 문제를 더 단순한 문제로 대체할 수 있다는 것이다. 예를 들어, 처음 층은 에지 학습에 전념하여 적은 학습데이터로 효율적으로 학습할 수 있다. 개가 등장하는 이미지보다 에지를 포함한 이미지는 많고, 에지의 패턴은 개라는 패턴보다 구조가 훨씬 간단하기 때문이다. </li>
+<li>4) 정보를 계층적으로 전달할 수 있다. 예를 들어 에지를 추출한 층의 다음 층은 에지 정보를 쓸 수 있고, 더 고도의 패턴을 효과적으로 학습하리라 기대할 수 있다. 즉, 층을 깊게 함으로써 각 층이 학습해야 할 문제를 풀기 쉬운 단순한 문제로 분해할 수 있어 효율적으로 학습하리라 기대할 수 있다.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>세 가지 유명 신경망에 대해 알아보자</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>VGG<ul>
+<li>합성곱 계층과 풀링 계층으로 구성되는 기본적인 CNN이다. </li>
+<li>비중 있는 층(합성곱 계층, 완전연결 계층)을 모두 16층 혹은 19층으로 심화한 게 특징이다. 층의 깊이에 따라 VGG16 또는 VGG19로 구분하기도 한다. </li>
+<li>3x3의 작은 필터를 사용한 합성곱 계층을 연속으로 거친다. 합성곱 계층을 2~4회 연속으로 풀링 계층을 두어 크기를 절반으로 줄이는 처리를 반복한다. 그리고 마지막에는 완전 연결 계층을 통과시켜 결과를 출력한다. </li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>GoogLeNet<ul>
+<li>세로 방향 깊이뿐 아니라 가로 방향도 깊다는 점이 특징이다. </li>
+<li>GoogLeNet에는 가로 방향에 폭이 있다. 이를 인셉션 구조라 한다. <ul>
+<li>인셉션 구조 : 크기가 다른 필터(와 풀링)를 여러 개 적용하여 그 결과를 결합한다. 이 인셉션 구조를 하나의 빌딩 블록으로 사용하는 것이 GoogLeNet이다. </li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>ResNet<ul>
+<li>지금까지보다 층을 더 깊게 할 수 있는 특별한 장치(스킵 연결)가 있다. </li>
+<li>층을 깊게 하는 것이 성능 향상에 중요하다. 그러나 딥러닝의 학습에서는 층이 지나치게 깊으면 학습이 잘 되지 않고, 오히려 성능이 떨어지는 경우도 많다. 이런 문제를 해결하기 위해서 ResNet에서는 스킵 연결을 도입한다. 이 구조가 층의 깊이에 비례해 성능을 향상시킬 수 있게 한 핵심이다.</li>
+<li>스킵 연결 : 입력 데이터를 합성곱 계층을 건너뛰어 출력에 바로 더하는 구조를 말한다. 예를 들면, 입력 x를 연속한 두 합성곱 계층을 건너뛰어 출력에 바로 연결한다. 따라서 층이 깊어져도 학습을 효율적으로 할 수 있도록 해주는데 이는 역전파 때 스킵 연결이 신호 감쇠를 막아주기 때문이다. </li>
+<li>스킵 연결 : 입력 데이터를 그래도 흘리는 것으로 역전파 때도 상류의 기울기를 그대로 하류로 보낸다. 여기에서의 핵심은 상류의 기울기에 아무런 수정도 가하지 않고 그대로 흘린다는 것이다. 그래서 스킵 연결로 기울기가 작아지거나 지나치게 커질 걱정 없이 앞 층에 의미 있는 기울기가 전해지리라 기대할 수 있다. 층을 깊게 할수록 기울기가 작아지는 소실 문제를 이 스킵 연결이 줄여주는 것이다.</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr />
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>딥러닝 고속화<ul>
+<li>딥러닝에서는 대부분 오랜 시간을 합성곱 계층에서 소요한다. 따라서 합성곱 계층에서 이뤄지는 연산을 어떻게 고속으로 효율적으로 하느냐가 딥러닝의 과제가 될 것이다. </li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>GPU를 활용한 고속화<ul>
+<li>GPU는 병렬 수치 연산을 고속으로 처리할 수 있다. 이 능력을 다양한 용도 활용하자는 것이 GPU 컴퓨팅의 목적이다. 이처럼 GPU로 범용 수치 연산을 수행하는 것을 GPU 컴퓨팅이라고 한다. </li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>분산 학습<ul>
+<li>GPU로 딥러닝 연산을 꽤 가속할 수 있지만, 그래도 심층 신경망에서는 학습에 며칠 혹은 몇주가 걸리기도 한다.</li>
+<li>뛰어난 신경망을 만들려면 시험을 수없이 반복해야 하고, 그러려면 1회 학습에 걸리는 시간을 최대한 단축해야 한다.</li>
+<li>그래서 딥러닝 학습을 수평 확장 하자는 아이디어(즉, 분산 학습)가 중요해지는 것이다.</li>
+<li>딥러닝 계산을 더욱 고속화하고자 다수의 GPU와 기기로 계산을 분산하기도 한다.</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>연산 정밀도와 비트 줄이기<ul>
+<li>메모리 용량과 버스 대역폭 등이 딥러닝 고속화에 병목이 될 수 있다.</li>
+<li>메모리 용량 면에서는 대량의 가중치 매개변수와 중간 데이터를 메모리에 저장해야 한다는 것을 생각해야 한다. </li>
+<li>버스 대역폭 면에서는 GPU 혹은 CPU의 버스를 흐르는 데이터가 많아져 한계를 넘어서면 병목이 된다. 이러한 경우를 고려하면 네트워크로 주고받는 데이터의 비트수는 최소로 만드는 것이 바람직하다.<ul>
+<li>다행히 딥러닝은 높은 수치 정밀도 즉, 수치를 몇 비트로 표현하느냐를 요구하지 않는다. 이는 신경망의 중요한 성질 중 하나로, 신경망의 견고성에 따른 특성이다. 예를 들어 신경망은 입력 이미지에 노이즈가 조금 섞여 있어도 출력 결과가 잘 달라지지 않는 강건함을 보여준다. 이런 견고성 덕분에 신경망을 흐르는 데이터를 퇴화시켜도 출력에 주는 영향은 적다. 즉, 병목 현상을 피하기 위해 비트 수를 줄여도 타격이 크지 않으니 줄여도 무방하다는 것이다. </li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr />
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>딥러닝의 활용<ul>
+<li>딥러닝은 사물 인식뿐만 아니라 이미지, 음성, 자연어 등 수많은 분야에서 활용할 수 있다.</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>사물 검출<ul>
+<li>이미지 속에 담긴 사물의 위치와 종류(클래스)를 알아내는 기술이다. </li>
+<li>사물 인식과는 다른 문제로서 좀 더 고차원적인 문제이다. </li>
+<li>사물 인식은 이미지 전체를 대상으로 하지만 사물 검출에서는 이미지 어딘가에 있을 사물의 위치까지 알아내야 한다. 게다가 한 이미지에 여러 사물이 존재할 수도 있다. </li>
+<li>CNN을 이용하여 사물 검출을 수행하는 몇 가지 방식이 있는데 그중 R-CNN에 대해 알아보자<ul>
+<li><ol>
+<li>입력 이미지</li>
+</ol>
+</li>
+<li><ol>
+<li>후보 영역 추출</li>
+</ol>
+</li>
+<li><ol>
+<li>CNN 특징 계산</li>
+</ol>
+</li>
+<li><ol>
+<li>영역 분류</li>
+</ol>
+</li>
+<li>여기서 2번과 3번에 주목해보자</li>
+<li>먼저, 사물이 위치한 영역을 찾아낸다. 즉, 후보들을 추려낸다. 그리고 추출한 각 영역에 CNN을 적용하여 클래스를 분류한다. 여기서 이미지를 사각형으로 변형하거나 분류할 때 서포트 벡터 머신(SVM)을 사용할 수 있겠다. </li>
+<li>이때, 후보 영역 추출에는 컴퓨터 비전 분야에서 발전해온 다양한 기법을 사용할 수 있고, R-CNN 논문에서는 Selective-Search 기법을 사용한다. </li>
+<li>최근에는 이 후보 영역 추출까지 CNN으로 처리하는 Faster R-CNN 기법도 등장했다. Faster R-CNN은 모든 일을 하나의 CNN에서 처리하기 때문에 매우 빠르다. </li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>분할<ul>
+<li>이미지를 픽셀 수준에서 분류하는 문제이다.</li>
+<li>픽셀 단위로 객체마다 채색된 지도 데이터를 사용해 학습한다. 그리고 추론할 때 입력이미지의 모든 픽셀을 분류한다. </li>
+<li>신경망을 이용해 분할하는 가장 단순한 방법은 모든 픽셀 각각을 추론하는 것이지만 시간이 상당히 걸릴 것이다. 이러한 낭비를 줄여주는 기법으로 FCN(Fully Convolutional Network)이 고안되었다. 이는 단 한번의 forward 처리로 모든 픽셀의 클래스를 분류해준다. 이 기법은 일반적인 CNN이 완전연결 계층을 이용하는 반면, FCN은 이 완전연결 계층을 같은 기능을 하는 합성곱 계층으로 구현한다. 즉, 합성곱 계층으로만 구성된 네트워크인 것이다. </li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>사진 캡션(삽입된 그림이나 도표, 사진 등의 이해를 돕기 위해 쓰는 간단한 주석문) 생성<ul>
+<li>즉, 특정 사진을 주면 그 사진을 설명하는 글(사진 캡션)을 자동으로 생성하는 연구이다.</li>
+<li>딥러닝으로 사진 캡션을 생성하는 방법으로는 NIC(Neural Image Caption)모델이 대표적이다. 심층 CNN과 자연어를 다루는 순환 신경망(Recurrent Neural Network, RNN)으로 구성된다. RNN은 순환적 관계를 갖는 신겨망으로 자연어나 시계열 데이터 등의 연속된 데이터를 다룰 때 많이 사용한다. </li>
+<li>사진이나 자연어와 같은 여러 종류의 정보를 조합하고 처리하는 것을 멀티모달 처리라고 한다. </li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+  </div><a class="u-url" href="/INTROdl/2022/02/22/dl.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/INTROdl/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/INTROdl/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/INTROdl/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>An easy to use blogging platform with support for Jupyter Notebooks.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/rhkrehtjd" target="_blank" title="rhkrehtjd"><svg class="svg-icon grey"><use xlink:href="/INTROdl/assets/minima-social-icons.svg#github"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
